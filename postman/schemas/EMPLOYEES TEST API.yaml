@@ -1,0 +1,249 @@
+openapi: 3.0.3
+info:
+  title: EMPLOYEES TEST API
+  version: 0.0.1
+  description: App for testing
+paths:
+  /api/employees/:
+    get:
+      operationId: employees_list
+      tags:
+      - employees
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employe'
+          description: ''
+    post:
+      operationId: employees_create
+      tags:
+      - employees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employe'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Employe'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Employe'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employe'
+          description: ''
+  /api/employees/{id}/:
+    get:
+      operationId: employees_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Сотрудник.
+        required: true
+      tags:
+      - employees
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employe'
+          description: ''
+    put:
+      operationId: employees_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Сотрудник.
+        required: true
+      tags:
+      - employees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employe'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Employe'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Employe'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employe'
+          description: ''
+    patch:
+      operationId: employees_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Сотрудник.
+        required: true
+      tags:
+      - employees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEmploye'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEmploye'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEmploye'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employe'
+          description: ''
+    delete:
+      operationId: employees_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Сотрудник.
+        required: true
+      tags:
+      - employees
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Employe:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        employee_name:
+          type: string
+          maxLength: 100
+        employee_family_name:
+          type: string
+          maxLength: 100
+        employee_salary:
+          type: number
+          format: double
+        employee_age:
+          type: integer
+          maximum: 70
+          minimum: 20
+        profile_image:
+          type: string
+          nullable: true
+          maxLength: 2048
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 32
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - created_at
+      - employee_family_name
+      - employee_name
+      - id
+      - updated_at
+    PatchedEmploye:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        employee_name:
+          type: string
+          maxLength: 100
+        employee_family_name:
+          type: string
+          maxLength: 100
+        employee_salary:
+          type: number
+          format: double
+        employee_age:
+          type: integer
+          maximum: 70
+          minimum: 20
+        profile_image:
+          type: string
+          nullable: true
+          maxLength: 2048
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 32
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
